@@ -7,8 +7,3 @@ export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
 });
-
-// optional sanity log (remove later)
-pool.on("connect", () => {
-  console.log("Postgres connected");
-});
