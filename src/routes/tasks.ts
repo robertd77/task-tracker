@@ -1,5 +1,9 @@
 import { Router } from "express";
 import { pool } from "../db";
+import { sendEvent } from "../kafka/producer";
+import { taskCreated } from "../events/taskEvents";
+import { taskUpdated } from "../events/taskEvents";
+import { taskDeleted } from "../events/taskEvents";
 
 const taskRouter = Router();
 
@@ -16,7 +20,12 @@ taskRouter.post("/", async (req, res) => {
       [title]
     );
 
+    const task = result.rows[0];
+
     res.status(201).json(result.rows[0]);
+
+    //  Fire-and-forget Kafka event
+    sendEvent("tasks", taskCreated(task));
   } catch (error) {
     console.error("POST /tasks error:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -51,7 +60,12 @@ taskRouter.put("/:id", async (req, res) => {
       return res.status(404).json({ error: "Task not found" });
     }
 
-    res.json(result.rows[0]);
+    const task = result.rows[0];
+
+    //  Fire-and-forget Kafka event
+    await sendEvent("tasks", taskUpdated(task));
+
+    res.json(task);
   } catch (error) {
     console.error("PUT /tasks/:id error:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -102,7 +116,12 @@ taskRouter.delete("/:id", async (req, res) => {
       return res.status(404).json({ error: "Task not found" });
     }
 
+    const task = result.rows[0];
+
     res.json({ message: "Task deleted", task: result.rows[0] });
+
+    //  Fire-and-forget Kafka event
+    sendEvent("tasks", taskDeleted(task));
   } catch (error) {
     console.error("DELETE /tasks error:", error);
     res.status(500).json({ error: "Internal server error" });

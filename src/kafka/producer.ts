@@ -1,0 +1,42 @@
+import { Kafka } from "kafkajs";
+
+const kafka = new Kafka({
+  clientId: "task-tracker-api",
+  brokers: [process.env.KAFKA_BROKER!],
+  ssl: true,
+  sasl: {
+    mechanism: "plain",
+    username: process.env.KAFKA_API_KEY!,
+    password: process.env.KAFKA_API_SECRET!,
+  },
+});
+
+const producer = kafka.producer();
+
+let isConnected = false;
+
+export async function initKafkaProducer() {
+  if (!isConnected) {
+    await producer.connect();
+    isConnected = true;
+    console.log("Kafka producer connected");
+  }
+}
+
+export async function sendEvent(
+  topic: string,
+  payload: Record<string, unknown>
+) {
+  try {
+    await producer.send({
+      topic,
+      messages: [
+        {
+          value: JSON.stringify(payload),
+        },
+      ],
+    });
+  } catch (err) {
+    console.error("Kafka send failed:", err);
+  }
+}
