@@ -1,15 +1,4 @@
-import { Kafka } from "kafkajs";
-
-const kafka = new Kafka({
-  clientId: "task-tracker-api",
-  brokers: [process.env.KAFKA_BROKER!],
-  ssl: true,
-  sasl: {
-    mechanism: "plain",
-    username: process.env.KAFKA_API_KEY!,
-    password: process.env.KAFKA_API_SECRET!,
-  },
-});
+import { kafka } from "./client";
 
 const producer = kafka.producer();
 
