@@ -1,3 +1,4 @@
+import { pool } from "../db";
 import { kafka } from "./client";
 
 const consumer = kafka.consumer({
@@ -27,6 +28,18 @@ export async function startConsumer() {
           partition,
           event,
         });
+
+        const { type, data } = event;
+
+        console.log("Consumed event:", type, data?.id);
+
+        await pool.query(
+          `
+      INSERT INTO activity_log (event_type, task_id, task_title)
+      VALUES ($1, $2, $3)
+      `,
+          [type, data?.id ?? null, data?.title ?? null]
+        );
       } catch (err) {
         console.error("Failed to parse Kafka message:", err);
       }

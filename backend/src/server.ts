@@ -3,6 +3,7 @@ dotenv.config();
 import express from "express";
 import tasksRouter from "./routes/tasks";
 import { initKafkaProducer } from "./kafka/producer";
+import activityRouter from "./routes/activity";
 import cors from "cors";
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(
 );
 
 app.use("/tasks", tasksRouter);
+app.use("/activity", activityRouter);
 
 app.listen(4000, async () => {
   console.log("API running on http://localhost:4000");
