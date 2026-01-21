@@ -32,7 +32,7 @@ export async function createTask(title: string): Promise<Task> {
 export async function updateTask(
   id: string,
   title: string,
-  status: "open" | "done"
+  status: "open" | "done",
 ): Promise<Task> {
   const res = await fetch(`${API_URL}/tasks/${id}`, {
     method: "PUT",
@@ -48,4 +48,10 @@ export async function deleteTask(id: string) {
     method: "DELETE",
   });
   if (!res.ok) throw new Error("Failed to delete task");
+}
+
+export async function getActivity() {
+  const res = await fetch(`${API_URL}/activity`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch activity");
+  return res.json();
 }
