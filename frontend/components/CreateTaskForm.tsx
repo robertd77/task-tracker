@@ -14,24 +14,37 @@ export default function CreateTaskForm() {
     if (!title.trim()) return;
 
     setLoading(true);
-
     try {
       await createTask(title);
       setTitle("");
-      router.refresh(); // re-fetch server component data
+      router.refresh(); // refresh task list
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "1rem" }}>
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white p-4 rounded-lg shadow-md mb-6 flex flex-col sm:flex-row gap-3 items-center"
+    >
       <input
+        type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="New task title"
+        className="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        disabled={loading}
       />
-      <button type="submit" disabled={loading}>
+      <button
+        type="submit"
+        disabled={loading}
+        className={`px-4 py-2 rounded-md cursor-pointer text-white font-semibold transition ${
+          loading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-green-500 hover:bg-green-600"
+        }`}
+      >
         {loading ? "Adding..." : "Add Task"}
       </button>
     </form>
