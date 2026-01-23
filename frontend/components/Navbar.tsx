@@ -19,11 +19,8 @@ export default function Navbar() {
     <nav className="bg-gradient-to-r from-teal-600 to-teal-500">
       <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* App name  */}
-        <Link
-          href="/tasks"
-          className="text-xl font-bold text-white tracking-tight"
-        >
-          TaskTracker
+        <Link href="/tasks" className="flex items-center">
+          <img src="/logo.png" alt="Website Logo" className="navbar-logo" />
         </Link>
 
         {/* Nav links */}

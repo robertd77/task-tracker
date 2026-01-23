@@ -3,7 +3,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 export type Task = {
   id: string;
   title: string;
-  status: "open" | "done";
+  status: "open" | "completed";
   created_at: string;
 };
 
@@ -32,7 +32,7 @@ export async function createTask(title: string): Promise<Task> {
 export async function updateTask(
   id: string,
   title: string,
-  status: "open" | "done",
+  status: "open" | "completed",
 ): Promise<Task> {
   const res = await fetch(`${API_URL}/tasks/${id}`, {
     method: "PUT",

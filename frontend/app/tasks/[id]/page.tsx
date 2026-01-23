@@ -1,5 +1,5 @@
 import { getTaskById } from "@/lib/api";
-import TaskActions from "./task-actions";
+import SingleTaskCard from "./SingleTaskCard";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -11,10 +11,7 @@ export default async function TaskPage({ params }: Props) {
 
   return (
     <div>
-      <h1>{task.title}</h1>
-      <p>Status: {task.status}</p>
-
-      <TaskActions task={task} />
+      <SingleTaskCard task={task} />
     </div>
   );
 }

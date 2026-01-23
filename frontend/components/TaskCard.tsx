@@ -13,7 +13,7 @@ interface Props {
 }
 
 const TaskCard: FC<Props> = ({ task }) => {
-  const isCompleted = task.status.toLowerCase() === "done";
+  const isCompleted = task.status.toLowerCase() === "completed";
 
   return (
     <Link href={`/tasks/${task.id}`} className="block">

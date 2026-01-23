@@ -28,3 +28,11 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.navbar-logo {
+  height: 40px !important;
+  max-height: 40px !important;
+  width: auto !important;
+  object-fit: contain !important;
+  display: block !important;
+}
