@@ -1,20 +1,33 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { getActivity } from "@/lib/api";
 
-export default async function ActivityPage() {
-  const activity = await getActivity();
+import ActivityFeed from "@/components/ActivityFeed";
+
+export default function ActivityPage() {
+  const [activity, setActivity] = useState<any[]>([]);
+
+  const fetchActivity = async () => {
+    try {
+      const data = await getActivity();
+      setActivity(data);
+    } catch (err) {
+      // keep simple: log to console for now
+      // eslint-disable-next-line no-console
+      console.error("Failed to fetch activity", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchActivity();
+    const id = setInterval(fetchActivity, 10000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
-    <div>
-      <h1>Activity Feed</h1>
-      <ul>
-        {activity.map((event: any) => (
-          <li key={event.id}>
-            <strong>{event.event_type.replace("task.", "")}</strong> –{" "}
-            {event.task_title ?? "N/A"} (
-            {new Date(event.created_at).toLocaleString()})
-          </li>
-        ))}
-      </ul>
+    <div className="min-h-screen bg-teal-50 p-8">
+      <ActivityFeed events={activity} />
     </div>
   );
 }
