@@ -6,7 +6,7 @@ import { getActivity } from "@/lib/api";
 import ActivityFeed from "@/components/ActivityFeed";
 
 export default function ActivityPage() {
-  const [activity, setActivity] = useState<any[]>([]);
+  const [activity, setActivity] = useState<any[] | null>(null);
 
   const fetchActivity = async () => {
     try {
@@ -26,7 +26,7 @@ export default function ActivityPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-teal-50 p-8">
+    <div className="min-h-screen rounded-xl bg-teal-50 p-8">
       <ActivityFeed events={activity} />
     </div>
   );

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createTask } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function CreateTaskForm() {
   const [title, setTitle] = useState("");
@@ -18,6 +19,9 @@ export default function CreateTaskForm() {
       await createTask(title);
       setTitle("");
       router.refresh(); // refresh task list
+      toast.success("Task created");
+    } catch (err) {
+      toast.error("Failed to create task");
     } finally {
       setLoading(false);
     }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import { Toaster } from "react-hot-toast";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -33,6 +34,7 @@ export default function Navbar() {
           </Link>
         </div>
       </div>
+      <Toaster position="top-right" />
     </nav>
   );
 }

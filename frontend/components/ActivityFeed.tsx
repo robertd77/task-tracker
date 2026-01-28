@@ -5,8 +5,15 @@ type ActivityEvent = {
   task_title?: string | null;
 };
 
-export default function ActivityFeed({ events }: { events: ActivityEvent[] }) {
-  if (!events.length) {
+export default function ActivityFeed({
+  events,
+}: {
+  events: ActivityEvent[] | null;
+}) {
+  // while `events` is null the parent is still loading — render nothing
+  if (events === null) return null;
+
+  if (events.length === 0) {
     return <p className="text-gray-500 text-sm">No recent activity.</p>;
   }
 

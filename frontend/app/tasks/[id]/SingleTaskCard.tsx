@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { updateTask, deleteTask, Task } from "@/lib/api";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function SingleTaskCard({ task }: { task: Task }) {
   const router = useRouter();
@@ -12,17 +13,30 @@ export default function SingleTaskCard({ task }: { task: Task }) {
 
   async function handleUpdate() {
     setLoading(true);
-    await updateTask(task.id, title, status);
-    setLoading(false);
-    router.refresh();
+    try {
+      await updateTask(task.id, title, status);
+      toast.success("Task updated");
+      router.refresh();
+    } catch (err) {
+      toast.error("Failed to update task");
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function handleDelete() {
     if (!confirm("Delete this task?")) return;
 
     setLoading(true);
-    await deleteTask(task.id);
-    router.push("/tasks");
+    try {
+      await deleteTask(task.id);
+      toast.success("Task deleted");
+      router.push("/tasks");
+    } catch (err) {
+      toast.error("Failed to delete task");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
