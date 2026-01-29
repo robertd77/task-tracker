@@ -4,6 +4,7 @@ import express from "express";
 import tasksRouter from "./routes/tasks";
 import { initKafkaProducer } from "./kafka/producer";
 import activityRouter from "./routes/activity";
+import { initSchema } from "./initSchema";
 import cors from "cors";
 
 const app = express();
@@ -24,5 +25,6 @@ const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, async () => {
   console.log("API running on port", PORT);
+  await initSchema();
   await initKafkaProducer();
 });
