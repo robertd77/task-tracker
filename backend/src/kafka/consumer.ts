@@ -35,10 +35,10 @@ export async function startConsumer() {
 
         await pool.query(
           `
-      INSERT INTO activity_log (event_type, task_id, task_title)
+      INSERT INTO activity (event_type, task_id, task_title)
       VALUES ($1, $2, $3)
       `,
-          [type, data?.id ?? null, data?.title ?? null]
+          [type, data?.id ?? null, data?.title ?? null],
         );
       } catch (err) {
         console.error("Failed to parse Kafka message:", err);

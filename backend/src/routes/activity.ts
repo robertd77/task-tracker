@@ -13,10 +13,10 @@ activityRouter.get("/", async (_req, res) => {
         task_id,
         task_title,
         created_at
-      FROM activity_log
+      FROM activity
       ORDER BY created_at DESC
       LIMIT 20
-      `
+      `,
     );
 
     res.json(result.rows);
