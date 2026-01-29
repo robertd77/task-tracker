@@ -14,13 +14,15 @@ app.use(
     origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-  })
+  }),
 );
 
 app.use("/tasks", tasksRouter);
 app.use("/activity", activityRouter);
 
-app.listen(4000, async () => {
-  console.log("API running on http://localhost:4000");
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, async () => {
+  console.log("API running on port", PORT);
   await initKafkaProducer();
 });

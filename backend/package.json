@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:api": "npx tsnd-cjs  src/server.ts",
-    "dev:consumer": "npx tsnd-cjs src/consumer.ts"
+    "dev:consumer": "npx tsnd-cjs src/consumer.ts",
+    "start:api": "node dist/server.js",
+    "start:consumer": "node dist/consumer.js",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
